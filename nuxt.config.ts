@@ -10,4 +10,25 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "@nuxt/eslint",
   ],
+
+  // Nuxt Hub configuration
+  hub: {
+    db: {
+      dialect: "postgresql",
+      casing: "snake_case", // Maps camelCase to snake_case in database
+    },
+  },
+
+  // Runtime configuration
+  runtimeConfig: {
+    // Public configuration (exposed to client)
+    public: {
+      appName: "ReportFlow",
+    },
+  },
+
+  // TypeScript strict mode
+  typescript: {
+    strict: true,
+  },
 });

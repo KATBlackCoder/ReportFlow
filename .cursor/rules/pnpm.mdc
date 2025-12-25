@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+
+Always use pnpm for package management. This includes:
+- `pnpm add` for installing dependencies
+- `pnpm dlx` for one-off package executions (never npx)
+- `pnpm` for running tools and linters (e.g., `pnpm eslint`, `pnpm prettier`)
+Never suggest npm, yarn, or other alternatives unless explicitly asked for comparisons.

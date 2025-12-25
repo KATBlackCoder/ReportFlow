@@ -55,18 +55,18 @@ description: "Task list template for Nuxt 4 Unified Stack feature implementation
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T009 [P] Create role enum and types in server/types/roles.ts
-- [ ] T010 [P] Implement authentication middleware in server/middleware/auth.ts
-- [ ] T011 [P] Create base permission composable in composables/usePermissions.ts
-- [ ] T012 [P] Set up Nuxt Hub database schema and migrations
-- [ ] T013 [P] Create base audit logging system in server/utils/audit.ts
-- [ ] T014 [P] Configure session management with nuxt-auth-utils
-- [ ] T015 [P] Create base error handling utilities in server/utils/errors.ts
-- [ ] T016 [P] Set up base testing configuration with Vitest
-- [ ] T017 [P] Implement password reset functionality in server/api/auth/reset.post.ts
-- [ ] T018 [P] Add input validation and sanitization middleware in server/middleware/validation.ts
-- [ ] T019 [P] Configure audit data retention policies in server/utils/audit.ts
-- [ ] T020 [P] Implement storage scaling and partitioning strategy in server/utils/storage.ts
+- [x] T009 [P] Create role enum and types in server/types/roles.ts
+- [x] T010 [P] Implement authentication middleware in server/middleware/auth.ts
+- [x] T011 [P] Create base permission composable in composables/usePermissions.ts
+- [x] T012 [P] Set up Nuxt Hub database schema and migrations
+- [x] T013 [P] Create base audit logging system in server/utils/audit.ts
+- [x] T014 [P] Configure session management with nuxt-auth-utils
+- [x] T015 [P] Create base error handling utilities in server/utils/errors.ts
+- [x] T016 [P] Set up base testing configuration with Vitest
+- [x] T017 [P] Implement password reset functionality in server/api/auth/reset.post.ts
+- [x] T018 [P] Add input validation and sanitization middleware in server/middleware/validation.ts
+- [x] T019 [P] Configure audit data retention policies in server/utils/audit.ts
+- [x] T020 [P] Implement storage scaling and partitioning strategy in server/utils/storage.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
