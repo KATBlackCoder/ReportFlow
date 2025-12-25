@@ -1,0 +1,562 @@
+openapi: 3.0.3
+info:
+  title: Hierarchical Reporting Application API
+  version: 1.0.0
+  description: REST API for hierarchical reporting workflow with RBAC
+
+servers:
+  - url: /api
+    description: Nuxt API routes
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - phone
+        - role
+        - firstName
+        - lastName
+      properties:
+        phone:
+          type: string
+          description: Primary unique identifier (phone number)
+        email:
+          type: string
+          format: email
+          description: Optional email address
+        role:
+          type: string
+          enum: [R1, R2, R3, R4]
+          description: Hierarchical role
+        firstName:
+          type: string
+        lastName:
+          type: string
+        isActive:
+          type: boolean
+          default: true
+
+    Report:
+      type: object
+      required:
+        - id
+        - questionnaireId
+        - authorId
+        - authorRole
+        - state
+        - data
+      properties:
+        id:
+          type: string
+          format: uuid
+        questionnaireId:
+          type: string
+          format: uuid
+        authorId:
+          type: string
+          description: User's phone number
+        authorRole:
+          type: string
+          enum: [R3, R4]
+        state:
+          type: string
+          enum: [submitted, returned, in_progress, validated]
+        data:
+          type: object
+          description: Form responses as key-value pairs
+        modified:
+          type: boolean
+          default: false
+        correctionReason:
+          type: string
+          description: Required when report is flagged
+        submittedAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Nuxt session-based authentication
+
+security:
+  - sessionAuth: []
+
+paths:
+  # Authentication
+  /auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - identifier
+                - password
+              properties:
+                identifier:
+                  type: string
+                  description: Phone number or email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      summary: User logout
+      responses:
+        '200':
+          description: Logout successful
+
+  /auth/reset-password:
+    post:
+      summary: Request password reset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Reset email sent
+        '404':
+          description: Email not found
+
+  # User Management
+  /users:
+    get:
+      summary: List users (role-based access)
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [R3, R4]
+          description: Filter by role (for R2 users)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  total:
+                    type: integer
+        '403':
+          description: Insufficient permissions
+
+    post:
+      summary: Create new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Cannot create user of this role
+
+  /users/{phone}:
+    get:
+      summary: Get user details
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's phone number
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Cannot view this user
+        '404':
+          description: User not found
+
+    put:
+      summary: Update user
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's phone number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Cannot modify this user
+
+    delete:
+      summary: Delete user
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's phone number
+      responses:
+        '204':
+          description: User deleted
+        '403':
+          description: Cannot delete this user
+
+  # Reports
+  /reports:
+    get:
+      summary: List reports (role-based visibility)
+      parameters:
+        - name: state
+          in: query
+          schema:
+            type: string
+            enum: [submitted, returned, in_progress, validated]
+        - name: authorRole
+          in: query
+          schema:
+            type: string
+            enum: [R3, R4]
+          description: Filter by author role
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of visible reports
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Report'
+                  total:
+                    type: integer
+
+    post:
+      summary: Submit new report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - questionnaireId
+                - data
+              properties:
+                questionnaireId:
+                  type: string
+                  format: uuid
+                data:
+                  type: object
+                  description: Form responses
+      responses:
+        '201':
+          description: Report submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '403':
+          description: No questionnaire available for your role
+
+  /reports/{id}:
+    get:
+      summary: Get report details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Report details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '403':
+          description: Cannot view this report
+        '404':
+          description: Report not found
+
+    put:
+      summary: Update report (edit or review)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: Updated form responses (for authors)
+                action:
+                  type: string
+                  enum: [validate, flag]
+                  description: Review action (for reviewers)
+                reason:
+                  type: string
+                  description: Required for flag actions
+      responses:
+        '200':
+          description: Report updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '403':
+          description: Cannot modify this report
+
+  /reports/{id}/validate:
+    post:
+      summary: Validate report
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Report validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '403':
+          description: Cannot validate this report
+
+  /reports/{id}/flag:
+    post:
+      summary: Flag report for correction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - reason
+              properties:
+                reason:
+                  type: string
+                  description: Correction reason
+      responses:
+        '200':
+          description: Report flagged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '403':
+          description: Cannot flag this report
+
+  # Exports
+  /reports/export:
+    get:
+      summary: Export reports to Excel (role-based scope)
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [excel]
+            default: excel
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter reports from date
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter reports to date
+      responses:
+        '200':
+          description: Excel file download
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: Export not permitted for your role
+
+  # Questionnaires (R1 only)
+  /questionnaires:
+    get:
+      summary: List questionnaires (R1 only)
+      responses:
+        '200':
+          description: List of questionnaires
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questionnaires:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        title:
+                          type: string
+                        targetRole:
+                          type: string
+                          enum: [R3, R4]
+                        version:
+                          type: integer
+                        isActive:
+                          type: boolean
+        '403':
+          description: Only R1 can manage questionnaires
+
+    post:
+      summary: Create questionnaire (R1 only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - targetRole
+                - fields
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                targetRole:
+                  type: string
+                  enum: [R3, R4]
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    description: Form field definition
+      responses:
+        '201':
+          description: Questionnaire created
+        '403':
+          description: Only R1 can create questionnaires

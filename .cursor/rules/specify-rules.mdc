@@ -1,0 +1,29 @@
+# Canva_RZ Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-12-24
+
+## Active Technologies
+
+- TypeScript 5.x (strict mode) + Nuxt 4, Nuxt UI v4, Pinia (setup), nuxt-auth-utils, Nuxt Hub (DB) (001-hierarchical-reporting)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+TypeScript 5.x (strict mode): Follow standard conventions
+
+## Recent Changes
+
+- 001-hierarchical-reporting: Added TypeScript 5.x (strict mode) + Nuxt 4, Nuxt UI v4, Pinia (setup), nuxt-auth-utils, Nuxt Hub (DB)
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
