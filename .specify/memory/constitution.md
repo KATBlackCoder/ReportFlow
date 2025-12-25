@@ -1,4 +1,4 @@
-/*
+/_
 Sync Impact Report
 ==================
 Version change: new project → 1.0.0
@@ -8,7 +8,7 @@ Removed sections: None
 Templates requiring updates: plan-template.md (constitution check needs Nuxt-specific gates), spec-template.md (align with SDD requirements), tasks-template.md (add Nuxt-specific task types)
 Follow-up TODOs: None
 ==================
-*/
+_/
 
 # Nuxt 4 Unified Stack Constitution
 
@@ -96,6 +96,7 @@ In case of ambiguity or conflict, decisions MUST follow this order:
 - Third-party authentication frameworks or ad-hoc auth logic are forbidden.
 
 #### Scope
+
 - This applies to:
   - Session handling
   - User authentication
