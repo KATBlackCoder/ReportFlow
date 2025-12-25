@@ -1,6 +1,5 @@
 ---
-
-description: "Task list template for Nuxt 4 Unified Stack feature implementation - Constitution Section 2.1 (SDD) compliant"
+description: 'Task list template for Nuxt 4 Unified Stack feature implementation - Constitution Section 2.1 (SDD) compliant'
 ---
 
 # Tasks: Hierarchical Reporting Application

@@ -10,7 +10,7 @@
 **⚠️ CONSTITUTION REQUIREMENT**: This specification is MANDATORY per Section 2.1 (Spec-Driven Development).
 All implementation MUST satisfy these verified requirements. Tests MUST map to acceptance criteria.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Submit Report as Employee (Priority: P1)
 
@@ -104,7 +104,7 @@ Users export reports in Excel format according to their role-based permissions a
 - How does the system handle reports with extremely large amounts of data or attachments?
 - What happens when a report author is reassigned to a different supervisor mid-workflow?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -127,7 +127,7 @@ Users export reports in Excel format according to their role-based permissions a
 - **FR-014**: System MUST use reusable form components with dynamic role-based dispatching for questionnaires
 - **FR-015**: System MUST ensure business rules are not embedded in UI components but handled separately
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **User**: Represents system users with role hierarchy (R1-R4), phone number as primary unique identifier, optional email address, and profile information
 - **Questionnaire**: Role-specific form templates created by R1, containing field definitions and validation rules
@@ -145,7 +145,7 @@ Users export reports in Excel format according to their role-based permissions a
 - Q: What are the performance requirements for concurrent users? → A: Good performance (2-second response time, support for peak concurrent usage)
 - Q: How long should audit data be retained? → A: 7 years (legal compliance) + 2 years (operational)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -23,7 +23,7 @@ Application de reporting hiérarchique avec workflow de validation basé sur les
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### Nuxt 4 Unified Stack Compliance Gates
 
@@ -97,16 +97,18 @@ tests/
 ### Phase 0 — Foundations (Setup Once)
 
 #### 0.1 Project Initialization
-* Create Nuxt 4 project with TypeScript strict mode
-* Install and configure required dependencies:
-  * Nuxt UI v4
-  * Pinia (setup syntax)
-  * nuxt-auth-utils
-  * Nuxt Hub (database)
+
+- Create Nuxt 4 project with TypeScript strict mode
+- Install and configure required dependencies:
+  - Nuxt UI v4
+  - Pinia (setup syntax)
+  - nuxt-auth-utils
+  - Nuxt Hub (database)
 
 **Expected Result**: Project starts successfully with no business logic or features implemented.
 
 #### 0.2 Base Structure (Constitution Compliant)
+
 Create the directory structure following Nuxt 4 conventions and constitution requirements.
 
 **Expected Result**: Clear structure with separated responsibilities, no "magic" code.
@@ -114,71 +116,81 @@ Create the directory structure following Nuxt 4 conventions and constitution req
 ### Phase 1 — Authentication & Roles (Foundation)
 
 #### 1.1 Authentication with `nuxt-auth-utils`
-* Login (email or phone + password)
-* Logout functionality
-* Password reset via email
-* Persistent sessions
+
+- Login (email or phone + password)
+- Logout functionality
+- Password reset via email
+- Persistent sessions
 
 **Expected Result**: Users can authenticate reliably with persistent sessions.
 
 #### 1.2 Role Model (Fundamental)
-* Create role enum (R1 | R2 | R3 | R4)
-* Implement page protection middleware
-* Create `usePermissions()` composable with centralized logic
+
+- Create role enum (R1 | R2 | R3 | R4)
+- Implement page protection middleware
+- Create `usePermissions()` composable with centralized logic
 
 **Examples**:
-* `canCreateUser(role, targetRole)`
-* `canExport(role)`
-* `canEditReport(role, report)`
+
+- `canCreateUser(role, targetRole)`
+- `canExport(role)`
+- `canEditReport(role, report)`
 
 **Expected Result**: Permissions are centralized with no scattered role checks.
 
 ### Phase 2 — User Management
 
 #### 2.1 User CRUD API
-* Create user (R1 → all roles, R2 → R3/R4 only)
-* Update user with role restrictions
-* Delete user respecting hierarchy
-* View users according to role permissions
+
+- Create user (R1 → all roles, R2 → R3/R4 only)
+- Update user with role restrictions
+- Delete user respecting hierarchy
+- View users according to role permissions
 
 **Expected Result**: Hierarchy respected, impossible to break rules.
 
 #### 2.2 User Management UI
-* Admin users page
-* Actions visible according to role
-* No forbidden buttons displayed
+
+- Admin users page
+- Actions visible according to role
+- No forbidden buttons displayed
 
 **Expected Result**: Consistent UX with security and ergonomics.
 
 ### Phase 3 — Questionnaires & Forms
 
 #### 3.1 Questionnaire Model
-* Role-specific questionnaires
-* Managed exclusively by R1
-* Optional versioning
+
+- Role-specific questionnaires
+- Managed exclusively by R1
+- Optional versioning
 
 **Expected Result**: Forms are data-driven, not hardcoded.
 
 #### 3.2 Reusable Field Components
-* InputForm, SelectForm, TextareaForm, etc.
+
+- InputForm, SelectForm, TextareaForm, etc.
 
 **Expected Result**: No hardcoded business field components, fully reusable.
 
 #### 3.3 Dynamic Dispatcher
-* Load correct form based on authenticated role
-* Client + server validation
+
+- Load correct form based on authenticated role
+- Client + server validation
 
 **Expected Result**: R3 and R4 have different experiences with clean code.
 
 ### Phase 4 — Reports & States (Core Business Logic)
 
 #### 4.1 Report Database Model
+
 Essential fields:
-* authorId, authorRole
-* state (`submitted | returned | in_progress | validated`)
-* modified (boolean)
-* correctionReason (optional)
-* timestamps
+
+- authorId, authorRole
+- state (`submitted | returned | in_progress | validated`)
+- modified (boolean)
+- correctionReason (optional)
+- timestamps
 
 **Expected Result**: Traceable data with explicit states.
 
@@ -192,68 +204,76 @@ Essential fields:
 ### Phase 5 — Review, Flag & Validation
 
 #### 5.1 R3 Actions (on R4 reports)
-* Validate → `in_progress` state
-* Flag → `returned` state + mandatory reason
+
+- Validate → `in_progress` state
+- Flag → `returned` state + mandatory reason
 
 **Expected Result**: R3 acts as true hierarchical filter.
 
 #### 5.2 R2/R1 Actions
-* Validate → `validated` state
-* Flag → `returned` state + reason
+
+- Validate → `validated` state
+- Flag → `returned` state + reason
 
 **Expected Result**: Clear final authority.
 
 ### Phase 6 — Editing & Locking
 
 #### 6.1 Editing Rules
-* Editable when `submitted` or `returned`
-* Locked when `in_progress` or `validated`
+
+- Editable when `submitted` or `returned`
+- Locked when `in_progress` or `validated`
 
 #### 6.2 Modified Flag
-* Any edit → `modified = true`
-* Flag visible to superiors
+
+- Any edit → `modified = true`
+- Flag visible to superiors
 
 **Expected Result**: Total traceability and accountability.
 
 ### Phase 7 — Views & Visibility
 
 #### 7.1 Role-Based Views
-* R4 → their own reports
-* R3 → team reports
-* R2/R1 → global view
+
+- R4 → their own reports
+- R3 → team reports
+- R2/R1 → global view
 
 **Expected Result**: No data leaks, appropriate views.
 
 #### 7.2 User Profile
-* All roles can view their own profile
-* No access to superior profiles
+
+- All roles can view their own profile
+- No access to superior profiles
 
 **Expected Result**: Compliant with specification.
 
 ### Phase 8 — Excel Export
 
 #### 8.1 Export Rules
-* R1/R2 → full export
-* R3 → team export
-* R4 → no export
+
+- R1/R2 → full export
+- R3 → team export
+- R4 → no export
 
 **Expected Result**: Exports consistent with responsibilities.
 
 ### Phase 9 — Testing & Validation
 
 #### 9.1 Priority Tests
-* Permissions logic
-* State transitions
-* Edit blocking
-* Mandatory flags
+
+- Permissions logic
+- State transitions
+- Edit blocking
+- Mandatory flags
 
 **Expected Result**: Business logic is bulletproof with minimal but effective tests.
 
 ### Phase 10 — Cleanup & Compliance
 
-* Verify constitution compliance
-* Remove dead code
-* Document decisions
+- Verify constitution compliance
+- Remove dead code
+- Document decisions
 
 **Final Result**: ✅ Clean project, not over-engineered, clear business logic, easy maintenance.
 
@@ -261,7 +281,7 @@ Essential fields:
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

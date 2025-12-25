@@ -6,9 +6,11 @@
 ## Core Entities
 
 ### User
+
 Primary entity representing system users with hierarchical roles.
 
 **Fields**:
+
 - `phone` (string, primary key): Phone number as unique identifier (required)
 - `email` (string, optional): Optional email address
 - `password_hash` (string, required): Hashed password
@@ -20,19 +22,23 @@ Primary entity representing system users with hierarchical roles.
 - `updated_at` (timestamp, required): Last modification date
 
 **Validation Rules**:
+
 - Phone number must be unique across all users
 - Role hierarchy: R1 > R2 > R3 > R4
 - Users cannot modify accounts of equal or higher roles
 
 **Relationships**:
+
 - One-to-many: User → Reports (as author)
 - One-to-many: User → ReviewActions (as reviewer)
 - One-to-many: User → AuditEntries (as actor)
 
 ### Questionnaire
+
 Role-specific form templates managed exclusively by R1.
 
 **Fields**:
+
 - `id` (uuid, primary key): Unique questionnaire identifier
 - `title` (string, required): Questionnaire display name
 - `description` (string, optional): Questionnaire description
@@ -45,17 +51,21 @@ Role-specific form templates managed exclusively by R1.
 - `updated_at` (timestamp, required): Last modification timestamp
 
 **Validation Rules**:
+
 - Only R1 users can create/modify questionnaires
 - Fields JSON must contain valid form schema
 - Version increments on each modification
 
 **Relationships**:
+
 - One-to-many: Questionnaire → Reports (reports based on this questionnaire)
 
 ### Report
+
 Core entity representing submitted reports with workflow states.
 
 **Fields**:
+
 - `id` (uuid, primary key): Unique report identifier
 - `questionnaire_id` (uuid, foreign key → Questionnaire.id, required): Associated questionnaire
 - `author_id` (string, foreign key → User.phone, required): Report author
@@ -72,21 +82,25 @@ Core entity representing submitted reports with workflow states.
 - `updated_at` (timestamp, required): Last modification timestamp
 
 **Validation Rules**:
+
 - State transitions follow strict workflow rules
 - Only authors can edit when state is submitted or returned
 - Reports become read-only when in_progress or validated
 - Modified flag is permanent once set
 
 **Relationships**:
+
 - Many-to-one: Report → User (author)
 - Many-to-one: Report → Questionnaire
 - One-to-many: Report → ReviewActions
 - One-to-many: Report → AuditEntries
 
 ### ReviewAction
+
 Audit trail for individual review actions on reports.
 
 **Fields**:
+
 - `id` (uuid, primary key): Unique action identifier
 - `report_id` (uuid, foreign key → Report.id, required): Associated report
 - `reviewer_id` (string, foreign key → User.phone, required): User performing the action
@@ -97,18 +111,22 @@ Audit trail for individual review actions on reports.
 - `created_at` (timestamp, required): Action timestamp
 
 **Validation Rules**:
+
 - Reason is mandatory for flag actions
 - State transitions must be valid according to workflow rules
 - Reviewer must have permission for the action
 
 **Relationships**:
+
 - Many-to-one: ReviewAction → Report
 - Many-to-one: ReviewAction → User (reviewer)
 
 ### AuditEntry
+
 Comprehensive audit log for all system actions (7-year retention).
 
 **Fields**:
+
 - `id` (uuid, primary key): Unique audit entry identifier
 - `actor_id` (string, foreign key → User.phone, required): User performing the action
 - `action` (string, required): Action performed (e.g., "report.submitted", "user.created")
@@ -121,21 +139,25 @@ Comprehensive audit log for all system actions (7-year retention).
 - `created_at` (timestamp, required): Action timestamp
 
 **Validation Rules**:
+
 - All actions are logged automatically
 - Data retention: 7 years for legal compliance + 2 years for operations
 - Immutable: entries cannot be modified or deleted
 
 **Relationships**:
+
 - Many-to-one: AuditEntry → User (actor)
 
 ## Database Constraints & Indexes
 
 ### Unique Constraints
+
 - Users: phone (primary identifier)
 - Users: email (where not null)
 - Questionnaires: (target_role, version) for active questionnaires
 
 ### Foreign Key Constraints
+
 - Reports.questionnaire_id → Questionnaires.id
 - Reports.author_id → Users.phone
 - Reports.flagged_by → Users.phone
@@ -145,6 +167,7 @@ Comprehensive audit log for all system actions (7-year retention).
 - AuditEntries.actor_id → Users.phone
 
 ### Performance Indexes
+
 - Reports: (author_id, state, created_at) for user report listings
 - Reports: (state, created_at) for reviewer queues
 - AuditEntries: (created_at, actor_id) for audit queries
@@ -153,6 +176,7 @@ Comprehensive audit log for all system actions (7-year retention).
 ## Data Flow & Business Rules
 
 ### Report Workflow State Machine
+
 ```
 submitted (initial)
 ├── flag by reviewer → returned
@@ -164,12 +188,14 @@ returned (correction requested)
 ```
 
 ### Visibility Rules
+
 - R4 reports: visible only to R3
 - R3 reports: visible to R2 and R1
 - Users can only view their own profile
 - R1 can view all, R2 can view R3-R4, R3 can view R4 in their scope
 
 ### Data Integrity Rules
+
 - Phone numbers are globally unique
 - Report states enforce editability rules
 - Audit entries are immutable
