@@ -1,4 +1,4 @@
-import type { Questionnaire, QuestionnaireField } from "../server/types/questionnaire";
+import type { Questionnaire, QuestionnaireField } from "../../server/types/questionnaire";
 import { useReportsStore } from "../stores/reports.store";
 import { computed } from "vue";
 /**
@@ -113,7 +113,7 @@ export function useQuestionnaire() {
    * Get field by ID
    */
   function getFieldById(fieldId: string): QuestionnaireField | undefined {
-    return questionnaire.value?.fields.find((f) => f.id === fieldId);
+    return questionnaire.value?.fields.find((f: QuestionnaireField) => f.id === fieldId);
   }
 
   /**

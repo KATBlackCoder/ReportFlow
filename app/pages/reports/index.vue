@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
-import { useAuthStore } from "~~/stores/auth.store";
-import { useReportsStore } from "~~/stores/reports.store";
+import { useAuthStore } from "../../stores/auth.store";
+import { useReportsStore } from "../../stores/reports.store";
 import type { Report } from "../../../server/types/report";
 
 definePageMeta({

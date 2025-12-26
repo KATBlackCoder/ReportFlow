@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import type { PublicUser, UserSession } from "../server/types/user";
-import type { Role } from "../server/types/roles";
+import type { PublicUser, UserSession } from "../../server/types/user";
+import type { Role } from "../../server/types/roles";
 
 
 /**

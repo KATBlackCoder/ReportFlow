@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from "~~/stores/auth.store";
-import { useReportsStore } from "~~/stores/reports.store";
+import { useAuthStore } from "../../stores/auth.store";
+import { useReportsStore } from "../../stores/reports.store";
 import ReportForm from "~/components/forms/ReportForm.vue";
 
 definePageMeta({

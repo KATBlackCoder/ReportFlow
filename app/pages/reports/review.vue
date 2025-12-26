@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
-import { useReportsStore } from "../../../stores/reports.store";
+import { useReportsStore } from "../../stores/reports.store";
 import { useReportVisibility } from "../../composables/useReportVisibility";
 
 // State labels (French)

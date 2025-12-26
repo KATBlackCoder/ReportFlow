@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import type { Report as ServerReport } from "../server/types/report";
-import type { Questionnaire as ServerQuestionnaire } from "../server/types/questionnaire";
+import type { Report as ServerReport } from "../../server/types/report";
+import type { Questionnaire as ServerQuestionnaire } from "../../server/types/questionnaire";
 
 /**
  * Report state type
