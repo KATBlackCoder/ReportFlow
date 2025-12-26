@@ -20,5 +20,5 @@ if (loggedIn.value) {
   await navigateTo('/reports');
 } else {
   await navigateTo('/auth/login');
-}
+  }
 </script>
