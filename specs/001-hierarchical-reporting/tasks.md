@@ -80,22 +80,22 @@ description: "Task list template for Nuxt 4 Unified Stack feature implementation
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create Questionnaire entity schema in server/types/questionnaire.ts
-- [ ] T018 [P] [US1] Create Report entity schema in server/types/report.ts
-- [ ] T019 [P] [US1] Create User entity schema in server/types/user.ts
-- [ ] T020 [P] [US1] Implement database schema for questionnaires table
-- [ ] T021 [P] [US1] Implement database schema for reports table
-- [ ] T022 [P] [US1] Implement database schema for users table
-- [ ] T023 [P] [US1] Create auth store in stores/auth.store.ts with nuxt-auth-utils
-- [ ] T024 [P] [US1] Create reports store in stores/reports.store.ts with Pinia setup
-- [ ] T025 [US1] Implement login API endpoint in server/api/auth/login.post.ts
-- [ ] T026 [US1] Implement questionnaire retrieval API in server/api/questionnaires/[id].get.ts
-- [ ] T027 [US1] Implement report submission API in server/api/reports.post.ts
-- [ ] T028 [US1] Create login page in app/pages/auth/login.vue with Nuxt UI
-- [ ] T029 [US1] Create reports dashboard page in app/pages/reports/index.vue
-- [ ] T030 [US1] Create report submission form component in app/components/forms/ReportForm.vue
-- [ ] T031 [US1] Implement questionnaire display logic in composables/useQuestionnaire.ts
-- [ ] T032 [US1] Implement report submission logic in composables/useReports.ts
+- [x] T017 [P] [US1] Create Questionnaire entity schema in server/types/questionnaire.ts
+- [x] T018 [P] [US1] Create Report entity schema in server/types/report.ts
+- [x] T019 [P] [US1] Create User entity schema in server/types/user.ts
+- [x] T020 [P] [US1] Implement database schema for questionnaires table
+- [x] T021 [P] [US1] Implement database schema for reports table
+- [x] T022 [P] [US1] Implement database schema for users table
+- [x] T023 [P] [US1] Create auth store in stores/auth.store.ts with nuxt-auth-utils
+- [x] T024 [P] [US1] Create reports store in stores/reports.store.ts with Pinia setup
+- [x] T025 [US1] Implement login API endpoint in server/api/auth/login.post.ts
+- [x] T026 [US1] Implement questionnaire retrieval API in server/api/questionnaires/[id].get.ts
+- [x] T027 [US1] Implement report submission API in server/api/reports.post.ts
+- [x] T028 [US1] Create login page in app/pages/auth/login.vue with Nuxt UI
+- [x] T029 [US1] Create reports dashboard page in app/pages/reports/index.vue
+- [x] T030 [US1] Create report submission form component in app/components/forms/ReportForm.vue
+- [x] T031 [US1] Implement questionnaire display logic in composables/useQuestionnaire.ts
+- [x] T032 [US1] Implement report submission logic in composables/useReports.ts
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 

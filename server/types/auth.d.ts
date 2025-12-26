@@ -6,9 +6,12 @@ import type { Role } from "./roles";
 declare module "#auth-utils" {
   interface User {
     phone: string;
+    email: string | null;
     role: Role;
     firstName: string;
     lastName: string;
+    isActive: boolean;
+    createdAt: Date;
   }
 
   interface UserSession {

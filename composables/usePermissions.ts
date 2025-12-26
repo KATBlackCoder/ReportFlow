@@ -15,14 +15,12 @@ import { ReportState, isReportEditable } from "~/server/types/report";
  * All permission checks should go through this composable
  */
 export function usePermissions() {
-  // TODO: Connect to auth store when implemented
-  // const authStore = useAuthStore();
-  // const { user } = storeToRefs(authStore);
+  // Use auth store for current user
+  const authStore = useAuthStore();
 
-  // Temporary: Get user from a reactive source (to be replaced)
+  // Current user role from auth store
   const currentUserRole = computed<Role | null>(() => {
-    // TODO: Replace with actual user from auth store
-    return null;
+    return authStore.currentRole;
   });
 
   /**
