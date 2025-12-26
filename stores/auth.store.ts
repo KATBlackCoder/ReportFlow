@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import type { PublicUser, UserSession } from "~/server/types/user";
-import type { Role } from "~/server/types/roles";
+import type { PublicUser, UserSession } from "../server/types/user";
+import type { Role } from "../server/types/roles";
+
 
 /**
  * Auth store using nuxt-auth-utils session
@@ -35,10 +36,10 @@ export const useAuthStore = defineStore("auth", () => {
   const currentSession = computed<UserSession | null>(() => {
     if (!loggedIn.value || !user.value) return null;
     return {
-      phone: user.value.phone,
-      role: user.value.role,
-      firstName: user.value.firstName,
-      lastName: user.value.lastName,
+      phone: (user.value as UserSession).phone,
+      role: (user.value as UserSession).role as Role,
+      firstName: (user.value as UserSession).firstName,
+      lastName: (user.value as UserSession).lastName,
     } as UserSession;
   });
 
@@ -84,14 +85,23 @@ export const useAuthStore = defineStore("auth", () => {
     error.value = null;
 
     try {
+      // Try server-side logout first
       await $fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // Ignore server errors (session may already be expired)
+    }
+
+    try {
+      // Clear local session (ignore 401 errors if session already gone)
       await clear();
     } catch {
-      // Ignore errors during logout, still clear local session
-      await clear();
-    } finally {
-      isLoading.value = false;
+      // Ignore clear errors - session is already invalid
     }
+
+    isLoading.value = false;
+
+    // Always redirect to login page
+    await navigateTo("/auth/login");
   }
 
   /**

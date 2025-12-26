@@ -109,18 +109,18 @@ description: "Task list template for Nuxt 4 Unified Stack feature implementation
 
 ### Implementation for User Story 2
 
-- [ ] T033 [P] [US2] Create ReviewAction entity schema in server/types/review.ts
-- [ ] T034 [P] [US2] Implement database schema for review_actions table
-- [ ] T035 [P] [US2] Extend reports store with review actions in stores/reports.store.ts
-- [ ] T036 [US2] Implement report listing API with role-based filtering in server/api/reports.get.ts
-- [ ] T037 [US2] Implement report validation API in server/api/reports/[id]/validate.post.ts
-- [ ] T038 [US2] Implement report flagging API in server/api/reports/[id]/flag.post.ts
-- [ ] T039 [US2] Create reports review page in app/pages/reports/review.vue
-- [ ] T040 [US2] Create report details component in app/components/reports/ReportDetails.vue
-- [ ] T041 [US2] Create review actions component in app/components/reports/ReviewActions.vue
-- [ ] T042 [US2] Implement state transition logic in composables/useReportWorkflow.ts
-- [ ] T043 [US2] Implement visibility filtering logic in composables/useReportVisibility.ts
-- [ ] T044 [US2] Add audit logging for review actions in server/utils/audit.ts
+- [x] T033 [P] [US2] Create ReviewAction entity schema in server/types/review.ts
+- [x] T034 [P] [US2] Implement database schema for review_actions table
+- [x] T035 [P] [US2] Extend reports store with review actions in stores/reports.store.ts
+- [x] T036 [US2] Implement report listing API with role-based filtering in server/api/reports.get.ts
+- [x] T037 [US2] Implement report validation API in server/api/reports/[id]/validate.post.ts
+- [x] T038 [US2] Implement report flagging API in server/api/reports/[id]/flag.post.ts
+- [x] T039 [US2] Create reports review page in app/pages/reports/review.vue
+- [x] T040 [US2] Create report details component in app/components/reports/ReportDetails.vue
+- [x] T041 [US2] Create review actions component in app/components/reports/ReviewActions.vue
+- [x] T042 [US2] Implement state transition logic in composables/useReportWorkflow.ts
+- [x] T043 [US2] Implement visibility filtering logic in composables/useReportVisibility.ts
+- [x] T044 [US2] Add audit logging for review actions in server/utils/audit.ts
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 

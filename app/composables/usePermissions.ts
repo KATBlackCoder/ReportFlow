@@ -7,9 +7,9 @@ import {
   REPORT_VALIDATOR_ROLES,
   REPORT_EXPORT_ROLES,
   QUESTIONNAIRE_MANAGER_ROLES,
-} from "~/server/types/roles";
-import { ReportState, isReportEditable } from "~/server/types/report";
-
+} from "../../server/types/roles";
+import { ReportState, isReportEditable } from "../../server/types/report";
+import { useAuthStore } from "../../stores/auth.store";
 /**
  * Permission composable for centralized authorization logic
  * All permission checks should go through this composable

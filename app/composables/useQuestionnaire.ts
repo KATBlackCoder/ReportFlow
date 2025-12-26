@@ -1,5 +1,6 @@
-import type { Questionnaire, QuestionnaireField } from "~/server/types/questionnaire";
-
+import type { Questionnaire, QuestionnaireField } from "../server/types/questionnaire";
+import { useReportsStore } from "../stores/reports.store";
+import { computed } from "vue";
 /**
  * Composable for questionnaire display and interaction logic
  */

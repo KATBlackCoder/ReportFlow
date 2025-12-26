@@ -3,9 +3,11 @@ import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
 import { useAuthStore } from "~~/stores/auth.store";
 import { useReportsStore } from "~~/stores/reports.store";
+import type { Report } from "../../../server/types/report";
 
 definePageMeta({
   layout: "default",
+  middleware: ["auth"],
 });
 
 const authStore = useAuthStore();
@@ -17,19 +19,8 @@ const router = useRouter();
 const UBadge = resolveComponent("UBadge");
 const UButton = resolveComponent("UButton");
 
-// Report type from store
-type ReportListItem = {
-  id: string;
-  questionnaireId: string;
-  questionnaireTitle: string | null;
-  authorId: string;
-  authorRole: string;
-  state: string;
-  modified: boolean;
-  correctionReason: string | null;
-  submittedAt: Date | string;
-  createdAt: Date | string;
-};
+// Report type from server
+type ReportListItem = Report;
 
 // Fetch reports on mount
 onMounted(async () => {
@@ -55,9 +46,9 @@ const stateLabels: Record<string, string> = {
 // Table columns
 const columns: TableColumn<ReportListItem>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => `#${(row.getValue("id") as string).slice(0, 8)}...`,
+    accessorKey: "authorId",
+    header: "Téléphone",
+    cell: ({ row }) => row.getValue("authorId") as string,
   },
   {
     accessorKey: "questionnaireTitle",
@@ -216,7 +207,7 @@ const canSubmit = computed(() => {
         <!-- Reports table -->
         <UTable
           v-else
-          :data="reportsStore.reports"
+          :data="reportsStore.reports as ReportListItem[]"
           :columns="columns"
           :loading="reportsStore.isLoading"
           class="min-h-[300px]"

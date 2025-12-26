@@ -155,6 +155,18 @@ export function createValidationError(
 }
 
 /**
+ * Create a bad request error (400)
+ */
+export function createBadRequestError(message: string): H3Error {
+  return createError({
+    statusCode: 400,
+    statusMessage: "Bad Request",
+    message,
+    data: { code: ErrorCode.VALIDATION_ERROR },
+  });
+}
+
+/**
  * Create an invalid input error (400)
  */
 export function createInvalidInputError(

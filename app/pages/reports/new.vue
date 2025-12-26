@@ -5,6 +5,7 @@ import ReportForm from "~/components/forms/ReportForm.vue";
 
 definePageMeta({
   layout: "default",
+  middleware: ["auth"],
 });
 
 const _authStore = useAuthStore();

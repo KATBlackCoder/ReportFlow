@@ -1,6 +1,23 @@
 import { defineStore } from "pinia";
-import type { Report, ReportState } from "~/server/types/report";
-import type { Questionnaire } from "~/server/types/questionnaire";
+import type { Report as ServerReport } from "../server/types/report";
+import type { Questionnaire as ServerQuestionnaire } from "../server/types/questionnaire";
+
+/**
+ * Report state type
+ */
+type ReportState = "submitted" | "returned" | "in_progress" | "validated";
+
+/**
+ * Extended Report interface for client-side use (includes additional fields)
+ */
+interface Report extends ServerReport {
+  questionnaireTitle?: string;
+}
+
+/**
+ * Questionnaire interface (using server type)
+ */
+type Questionnaire = ServerQuestionnaire;
 
 /**
  * Report submission payload
@@ -209,6 +226,79 @@ export const useReportsStore = defineStore("reports", () => {
   }
 
   /**
+   * Validate a report (for reviewers)
+   */
+  async function validateReport(id: string): Promise<Report | null> {
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      const report = await $fetch<Report>(`/api/reports/${id}/validate`, {
+        method: "POST",
+      });
+
+      // Update in local list
+      const index = reports.value.findIndex((r) => r.id === id);
+      if (index !== -1) {
+        reports.value[index] = report;
+      }
+
+      if (currentReport.value?.id === id) {
+        currentReport.value = report;
+      }
+
+      return report;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to validate report";
+      error.value = message;
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /**
+   * Flag a report for correction (for reviewers)
+   */
+  async function flagReport(id: string, reason: string): Promise<Report | null> {
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      const report = await $fetch<Report>(`/api/reports/${id}/flag`, {
+        method: "POST",
+        body: { reason },
+      });
+
+      // Update in local list
+      const index = reports.value.findIndex((r) => r.id === id);
+      if (index !== -1) {
+        reports.value[index] = report;
+      }
+
+      if (currentReport.value?.id === id) {
+        currentReport.value = report;
+      }
+
+      return report;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to flag report";
+      error.value = message;
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /**
+   * Fetch reports pending review for current user
+   */
+  async function fetchReportsForReview(): Promise<void> {
+    // This uses the same endpoint but the server filters based on role
+    await fetchReports();
+  }
+
+  /**
    * Get reports by state (computed filter)
    */
   const reportsByState = computed(() => {
@@ -220,6 +310,15 @@ export const useReportsStore = defineStore("reports", () => {
    */
   const hasMore = computed(() => {
     return reports.value.length < total.value;
+  });
+
+  /**
+   * Get reports pending review (filtered client-side)
+   */
+  const pendingReviewReports = computed(() => {
+    return reports.value.filter(
+      (r) => r.state === "submitted" || r.state === "in_progress"
+    );
   });
 
   return {
@@ -236,14 +335,18 @@ export const useReportsStore = defineStore("reports", () => {
     // Getters
     reportsByState,
     hasMore,
+    pendingReviewReports,
 
     // Actions
     fetchReports,
     fetchReport,
     fetchQuestionnaire,
     fetchActiveQuestionnaire,
+    fetchReportsForReview,
     submitReport,
     updateReport,
+    validateReport,
+    flagReport,
     clearCurrentReport,
     clearCurrentQuestionnaire,
     clearError,
