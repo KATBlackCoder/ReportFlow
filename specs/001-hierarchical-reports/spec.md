@@ -76,7 +76,8 @@ Les rôles `head_supervisor` et `manager` peuvent créer, modifier, suspendre et
 1. **Given** un `head_supervisor` ou `manager` connecté, **When** il crée un nouvel utilisateur avec un numéro de téléphone (8 chiffres), un rôle (employee, supervisor, head_supervisor) et un supérieur hiérarchique valide, **Then** le compte est créé et l'utilisateur peut se connecter
 2. **Given** un `head_supervisor` ou `manager` connecté, **When** il modifie le numéro de téléphone d'un utilisateur existant, **Then** le changement est enregistré et l'identifiant de connexion est mis à jour
 3. **Given** un `head_supervisor` ou `manager` connecté, **When** il suspend un compte utilisateur (`is_active = false`), **Then** l'utilisateur ne peut plus se connecter même avec des identifiants valides
-4. **Given** un `employee` ou `supervisor` connecté, **When** il tente d'accéder à l'interface de gestion des utilisateurs, **Then** l'accès est refusé
+4. **Given** un `head_supervisor` ou `manager` connecté, **When** il supprime un compte utilisateur, **Then** le compte est définitivement supprimé du système
+5. **Given** un `employee` ou `supervisor` connecté, **When** il tente d'accéder à l'interface de gestion des utilisateurs, **Then** l'accès est refusé
 
 ---
 
@@ -197,6 +198,7 @@ Les `head_supervisor` et `manager` peuvent filtrer la liste des rapports dans la
 - **FR-003**: System MUST allow `head_supervisor` and `manager` roles to create user accounts with phone_number (8 digits), role, and hierarchical superior
 - **FR-004**: System MUST allow `head_supervisor` and `manager` roles to modify all user information including phone_number
 - **FR-005**: System MUST allow `head_supervisor` and `manager` roles to suspend user accounts (preventing login)
+- **FR-005a**: System MUST allow `head_supervisor` and `manager` roles to delete user accounts (permanent removal)
 - **FR-006**: System MUST enforce role hierarchy: `employee` → `supervisor` → `head_supervisor` → `manager`
 - **FR-007**: System MUST allow `head_supervisor` and `manager` to create questionnaire templates with tabular structure (rows and columns) and field types
 - **FR-008**: System MUST allow `head_supervisor` and `manager` to assign questionnaires to `employee` or `supervisor` with a deadline
@@ -235,9 +237,9 @@ Les `head_supervisor` et `manager` peuvent filtrer la liste des rapports dans la
 
 - **Questionnaire Template**: Represents a reusable questionnaire structure with tabular definition (rows, columns, field types). Created by head_supervisor or manager. Relationships: can be assigned to multiple users.
 
-- **Questionnaire Instance**: Represents a specific questionnaire assigned to a user with a deadline. Created from a template. Relationships: belongs to one user (assignee), created from one template.
+- **Assignment**: Represents a specific questionnaire assigned to a user with a deadline. Created from a template. Relationships: belongs to one user (assignee), created from one template.
 
-- **Report**: Represents a filled questionnaire submitted by a user. Contains responses in tabular format. Has status (draft, submitted, approved, rejected). Relationships: created by one user (author), assigned to one questionnaire instance, can have rejection comments from validators.
+- **Report**: Represents a filled questionnaire submitted by a user. Contains responses in tabular format. Has status (draft, submitted, approved, rejected). Relationships: created by one user (author), assigned to one assignment, can have rejection comments from validators.
 
 - **Rejection Comment**: Represents a comment attached when a report is rejected. Contains text and author information. Relationships: belongs to one report, created by one validator (supervisor, head_supervisor, or manager).
 
