@@ -21,11 +21,11 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan (app/components/, app/pages/, app/composables/, app/stores/, app/utils/, server/api/, tests/)
-- [ ] T002 Configure Nuxt 4 project with @nuxt/ui, @nuxtjs/supabase, @pinia/nuxt modules in nuxt.config.ts
-- [ ] T003 [P] Install dependencies: @nuxtjs/supabase, @pinia/nuxt, pinia, xlsx, @types/xlsx via pnpm
-- [ ] T004 [P] Configure environment variables (.env) with SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY
-- [ ] T005 [P] Setup TypeScript configuration in tsconfig.json for Nuxt 4
+- [X] T001 Create project structure per implementation plan (app/components/, app/pages/, app/composables/, app/stores/, app/utils/, server/api/, tests/)
+- [X] T002 Configure Nuxt 4 project with @nuxt/ui, @nuxtjs/supabase, @pinia/nuxt modules in nuxt.config.ts
+- [X] T003 [P] Install dependencies: @nuxtjs/supabase, @pinia/nuxt, pinia, xlsx, @types/xlsx via pnpm
+- [X] T004 [P] Configure environment variables (.env) with SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY
+- [X] T005 [P] Setup TypeScript configuration in tsconfig.json for Nuxt 4
 
 ---
 
