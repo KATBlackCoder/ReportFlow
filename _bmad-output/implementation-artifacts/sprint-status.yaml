@@ -1,0 +1,96 @@
+# generated: 2026-01-09
+# project: ReportFlow
+# project_key: reportflow
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-01-09
+project: ReportFlow
+project_key: reportflow
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 1: Accès et Identités
+  epic-1: done
+  1-1-authentification-par-numero-de-telephone: ready-for-dev
+  1-2-modification-du-mot-de-passe-initial: ready-for-dev
+  1-3-gestion-des-comptes-utilisateurs-par-telephone: ready-for-dev
+  1-4-permissions-par-role-hierarchique: ready-for-dev
+  1-5-securite-et-sessions: ready-for-dev
+  1-6-gestion-des-equipes-temporaires: ready-for-dev
+  1-7-historique-et-audit: ready-for-dev
+  epic-1-retrospective: optional
+
+  # Epic 2: Création de Questionnaires
+  epic-2: done
+  2-1-interface-de-creation-de-questionnaires: ready-for-dev
+  2-2-modification-et-gestion-des-questionnaires: ready-for-dev
+  2-3-distribution-ciblee-des-questionnaires: ready-for-dev
+  2-4-distribution-collective-par-role: ready-for-dev
+  2-5-gestion-des-equipes-temporaires-pour-questionnaires: ready-for-dev
+  2-6-visibilite-des-questionnaires-par-role: ready-for-dev
+  epic-2-retrospective: optional
+
+  # Epic 3: Saisie de Données Intelligente
+  epic-3: done
+  3-1-copier-coller-csv-intelligent: ready-for-dev
+  3-2-validation-temps-reel-avec-corrections-granulaires: ready-for-dev
+  3-3-gestion-des-soumissions-multiples: ready-for-dev
+  3-4-interface-responsive-mobile-desktop: ready-for-dev
+  3-5-accessibilite-wcag-2-1-aa-complete: ready-for-dev
+  3-6-messages-d-erreur-contextuels-en-francais: ready-for-dev
+  epic-3-retrospective: optional
+
+  # Epic 4: Soumission et Suivi des Rapports
+  epic-4: done
+  4-1-suivi-des-rapports-personnels-employes: ready-for-dev
+  4-2-vue-d-equipe-pour-superviseurs: ready-for-dev
+  4-3-vue-globale-pour-managers: ready-for-dev
+  epic-4-retrospective: optional
+
+  # Epic 5: Validation Hiérarchique
+  epic-5: done
+  5-1-validation-de-base-par-superviseurs: ready-for-dev
+  5-2-rejet-granulaire-avec-commentaires-cibles: ready-for-dev
+  5-3-validation-finale-par-superviseur: ready-for-dev
+  5-4-notifications-intelligentes-pour-actions-requises: ready-for-dev
+  5-5-corrections-et-resoumission-par-employes: ready-for-dev
+  epic-5-retrospective: optional
+
+  # Epic 6: Analytics et Insights
+  epic-6: done
+  6-1-dashboard-statistiques-equipe-superviseurs: ready-for-dev
+  6-2-tri-et-filtrage-avance-managers: ready-for-dev
+  6-3-recherche-globale-dans-les-donnees: ready-for-dev
+  6-4-export-excel-csv-avec-donnees-filtrees: ready-for-dev
+  epic-6-retrospective: optional
